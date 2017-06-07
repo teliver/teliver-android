@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_b"
+    android:orientation="vertical"
+    android:padding="25dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <app.qk.teliver.views.CustomEditText
+            android:id="@+id/edt_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/txt_name"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/color_text"
+            android:textColorHint="@color/color_hint"
+            android:textSize="16sp" />
+
+        <app.qk.teliver.views.CustomTextView
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/txt_ok"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            app:font_name="@string/font_bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/color_line" />
+
+    <app.qk.teliver.views.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="7dp"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:text="@string/txt_tracking_msg"
+        android:textColor="@color/color_gray"
+        android:textSize="14sp"
+        app:font_name="@string/font_regular" />
+
+
+</LinearLayout>
