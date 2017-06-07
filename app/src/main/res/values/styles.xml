@@ -1,0 +1,64 @@
+<resources>
+
+    <style name="AppTheme" parent="CustomTheme" />
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowDisablePreview">false</item>
+        <item name="android:popupMenuStyle">@style/MyPopupMenuStyle</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu</item>
+    </style>
+
+    <style name="TranslucentTheme" parent="CustomTheme" />
+
+
+
+    <style name="CustomCheckBox" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/color_black</item>
+        <item name="android:background">@color/color_dull_white</item>
+    </style>
+
+
+    <style name="MyPopupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@color/color_hint</item>
+    </style>
+
+    <style name="MyPopupMenu" parent="@android:style/TextAppearance.Widget.PopupMenu.Small">
+        <item name="android:textColor">@color/color_normal</item>
+    </style>
+
+    <style name="RootView" parent="Widget.Design.CoordinatorLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/color_white</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="CustomCard" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardBackgroundColor">@color/color_white</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">1dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
+
+
+
+</resources>

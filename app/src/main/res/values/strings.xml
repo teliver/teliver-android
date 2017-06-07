@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Fonts -->
+    <string name="font_bold">fonts/font_bd.ttf</string>
+    <string name="font_regular">fonts/font_rg.ttf</string>
+
+
+    <string name="app_name">Teliver Demo</string>
+    <string name="txt_start_trip">START TRIP</string>
+    <string name="txt_stop_trip">STOP TRIP</string>
+    <string name="txt_logo">teliver.io</string>
+    <string name="txt_continue">Continue as</string>
+    <string name="txt_customer">Consumer</string>
+    <string name="txt_product">a Product of QuadKast</string>
+    <string name="txt_driver">Operator</string>
+    <string name="txt_demo">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</string>
+    <string name="txt_press_back">Tap one more time to exit</string>
+    <string name="txt_settings">Settings</string>
+    <string name="txt_trip_status">Trip Status</string>
+    <string name="txt_tracking_status">Tracking Status</string>
+    <string name="txt_start_tracking">START TRACKING</string>
+    <string name="txt_name">Enter Tracking ID with , separated</string>
+    <string name="txt_title">Enter Title</string>
+    <string name="txt_enter_user_id">Enter User Id with , separated</string>
+    <string name="txt_message">Enter Message</string>
+    <string name="txt_tracking_msg">Your GPS location will be shared with others those who are tracking you</string>
+    <string name="text_location_disabled">Location Services must be enabled to get your location. Do you want to enable?</string>
+    <string name="text_no_internet">Please Check your Internet Connectivity</string>
+    <string name="text_enter_valid_id">Tracking ID should not be empty</string>
+    <string name="text_location_permission">Please enable Location Permission</string>
+</resources>
