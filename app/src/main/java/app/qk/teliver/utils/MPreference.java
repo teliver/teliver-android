@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-/**
- * The Class TPreference.
- */
+
 @SuppressLint("CommitPrefEdits")
 public class MPreference {
 
