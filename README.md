@@ -14,7 +14,7 @@ Create your teliver account today : https://app.teliver.io.
 To begin with – The configuration steps
 
 1. Open your build.gradle file of Module:app.  
-   Add `compile 'com.teliver.sdk:TeliverSdk:1.0.2'`as dependency.
+   Add `compile 'com.teliver.sdk:TeliverSdk:1.0.3'`as dependency.
 
 2. Obtain the map key from Google maps [page](https://developers.google.com/maps/documentation/android-api/).
 
