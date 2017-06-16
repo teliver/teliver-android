@@ -1,8 +1,8 @@
 package app.qk.teliver.views;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import app.qk.teliver.utils.Utils;
 
@@ -10,7 +10,7 @@ import app.qk.teliver.utils.Utils;
 /**
  * The Class CustomTextView.
  */
-public class CustomTextView extends TextView {
+public class CustomTextView extends AppCompatTextView {
 
     /** The m utils. */
     private Utils mUtils;

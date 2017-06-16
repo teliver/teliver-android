@@ -11,11 +11,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.GsonBuilder;
 import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.core.TeliverMap;
 import com.teliver.sdk.models.MarkerOption;
 import com.teliver.sdk.models.NotificationData;
+import com.teliver.sdk.models.TConstants;
 import com.teliver.sdk.models.TrackingBuilder;
-import com.teliver.sdk.util.TConstants;
+import com.teliver.sdk.util.TeliverMap;
 
 import java.util.Map;
 

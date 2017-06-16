@@ -15,7 +15,6 @@ import com.teliver.sdk.models.UserBuilder;
 
 import app.qk.teliver.R;
 import app.qk.teliver.fragments.FragmentCustomer;
-import app.qk.teliver.fragments.FragmentSettings;
 import app.qk.teliver.utils.Utils;
 
 public class ActivityCustomer extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -30,7 +29,6 @@ public class ActivityCustomer extends AppCompatActivity implements FragmentManag
 
     private FragmentCustomer fragmentCustomer;
 
-    private FragmentSettings fragmentSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,23 +47,17 @@ public class ActivityCustomer extends AppCompatActivity implements FragmentManag
         rootView = findViewById(R.id.view_root);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-        changeFragment(0);
+        changeFragment();
         Teliver.identifyUser(new UserBuilder("test_customer")
                 .setUserType(UserBuilder.USER_TYPE.CONSUMER)
                 .registerPush()
                 .build());
     }
 
-    private void changeFragment(int caseValue) {
-        if (caseValue == 0) {
+    private void changeFragment() {
             if (fragmentCustomer == null)
                 fragmentCustomer = new FragmentCustomer();
             switchView(fragmentCustomer, getString(R.string.app_name));
-        } else {
-            if (fragmentSettings == null)
-                fragmentSettings = new FragmentSettings();
-            switchView(fragmentSettings, getString(R.string.txt_settings));
-        }
     }
 
     private void switchView(final Fragment fragment, final String title) {

@@ -22,8 +22,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.teliver.sdk.models.TConstants;
+
 import app.qk.teliver.R;
-import com.teliver.sdk.util.TConstants;
 
 
 /**
