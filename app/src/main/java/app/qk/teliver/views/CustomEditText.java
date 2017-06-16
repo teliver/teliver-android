@@ -1,8 +1,8 @@
 package app.qk.teliver.views;
 
 import android.content.Context;
+import android.support.design.widget.TextInputEditText;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import app.qk.teliver.utils.Utils;
 
@@ -10,7 +10,7 @@ import app.qk.teliver.utils.Utils;
 /**
  * The Class CustomEditTextView.
  */
-public class CustomEditText extends EditText {
+public class CustomEditText extends TextInputEditText {
 
     /** The m utils. */
     private Utils mUtils;

@@ -12,14 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.teliver.sdk.core.Teliver;
+import com.teliver.sdk.models.UserBuilder;
+
 import app.qk.teliver.R;
 import app.qk.teliver.fragments.FragmentDriver;
-import app.qk.teliver.fragments.FragmentSettings;
 import app.qk.teliver.utils.Constants;
 import app.qk.teliver.utils.Utils;
 import app.qk.teliver.views.CustomToast;
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.UserBuilder;
 
 public class ActivityDriver extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
@@ -32,8 +32,6 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
     private Snackbar snackbar;
 
     private FragmentDriver fragmentDriver;
-
-    private FragmentSettings fragmentSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,21 +50,15 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
         rootView = findViewById(R.id.view_root);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-        changeFragment(0);
+        changeFragment();
         Teliver.identifyUser(new UserBuilder("test_driver")
                 .setUserType(UserBuilder.USER_TYPE.OPERATOR).build());
     }
 
-    private void changeFragment(int caseValue) {
-        if (caseValue == 0) {
+    private void changeFragment() {
             if (fragmentDriver == null)
                 fragmentDriver = new FragmentDriver();
             switchView(fragmentDriver, getString(R.string.app_name));
-        } else {
-            if (fragmentSettings == null)
-                fragmentSettings = new FragmentSettings();
-            switchView(fragmentSettings, getString(R.string.txt_settings));
-        }
     }
 
     private void switchView(final Fragment fragment, final String title) {
