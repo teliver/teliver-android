@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,21 +26,23 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.teliver.sdk.core.Teliver;
 import com.teliver.sdk.core.TripListener;
-import com.teliver.sdk.models.EventPush;
 import com.teliver.sdk.models.PushData;
+import com.teliver.sdk.models.Trip;
 import com.teliver.sdk.models.TripBuilder;
 
+import java.util.List;
+
 import app.qk.teliver.R;
+import app.qk.teliver.adapters.TripsAdapter;
 import app.qk.teliver.utils.Constants;
 import app.qk.teliver.utils.MPreference;
 import app.qk.teliver.utils.Utils;
 import app.qk.teliver.views.CustomToast;
-import app.qk.teliver.views.ProgressView;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 
-public class FragmentDriver extends Fragment implements TripListener {
+public class FragmentDriver extends Fragment implements TripListener, View.OnClickListener {
 
     private Activity context;
 
@@ -49,11 +54,13 @@ public class FragmentDriver extends Fragment implements TripListener {
 
     private Dialog dialogBuilder;
 
-    private ProgressView progressView;
-
     private MPreference mPreference;
 
-    private String trackingId;
+    private RecyclerView recyclerView;
+
+    private TripsAdapter mAdapter;
+
+    List<Trip> currentTrips;
 
     @Nullable
     @Override
@@ -69,7 +76,8 @@ public class FragmentDriver extends Fragment implements TripListener {
         viewRoot = view.findViewById(R.id.view_root);
         manager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         txtTripStatus = (TextView) view.findViewById(R.id.trip_status);
-        changeTripStatus();
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        listTrip();
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS &&
@@ -95,29 +103,25 @@ public class FragmentDriver extends Fragment implements TripListener {
                     LocationManager.PASSIVE_PROVIDER.equals(provider))
                 Utils.showLocationAlert(context);
             else {
-                if (mPreference.getBoolean(Constants.IS_TRIP_ACTIVE)) {
-                    showProgress();
-                    Teliver.stopTrip(mPreference.getString(Constants.TRACKING_ID));
-                } else {
-                    dialogBuilder = new Dialog(context);
-                    dialogBuilder.getWindow().setBackgroundDrawable(new ColorDrawable(
-                            ContextCompat.getColor(context, android.R.color.transparent)));
-                    dialogBuilder.setContentView(R.layout.view_tracking);
-                    final EditText edtId = (EditText) dialogBuilder.findViewById(R.id.edt_id);
-                    final EditText edtTitle = (EditText) dialogBuilder.findViewById(R.id.edt_title);
-                    final EditText edtMsg = (EditText) dialogBuilder.findViewById(R.id.edt_msg);
-                    final EditText edtUserId = (EditText) dialogBuilder.findViewById(R.id.edt_user_id);
-                    final TextView btnOk = (TextView) dialogBuilder.findViewById(R.id.btn_ok);
-                    btnOk.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startTrip(edtTitle.getText().toString(), edtMsg.getText().toString(),
-                                    edtUserId.getText().toString().trim(), edtId.getText().toString().trim());
-                        }
-                    });
-                    dialogBuilder.show();
-                }
+                dialogBuilder = new Dialog(context);
+                dialogBuilder.getWindow().setBackgroundDrawable(new ColorDrawable(
+                        ContextCompat.getColor(context, android.R.color.transparent)));
+                dialogBuilder.setContentView(R.layout.view_tracking);
+                final EditText edtId = (EditText) dialogBuilder.findViewById(R.id.edt_id);
+                final EditText edtTitle = (EditText) dialogBuilder.findViewById(R.id.edt_title);
+                final EditText edtMsg = (EditText) dialogBuilder.findViewById(R.id.edt_msg);
+                final EditText edtUserId = (EditText) dialogBuilder.findViewById(R.id.edt_user_id);
+                final TextView btnOk = (TextView) dialogBuilder.findViewById(R.id.btn_ok);
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startTrip(edtTitle.getText().toString(), edtMsg.getText().toString(),
+                                edtUserId.getText().toString().trim(), edtId.getText().toString().trim());
+                    }
+                });
+                dialogBuilder.show();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,21 +135,16 @@ public class FragmentDriver extends Fragment implements TripListener {
                 Utils.showSnack(viewRoot, getString(R.string.text_no_internet));
             else {
                 dialogBuilder.dismiss();
-                // showProgress();
                 TripBuilder builder = new TripBuilder(trackingId);
-                builder.withListener(this);
+                Teliver.setListener(this);
+
                 if (!userId.isEmpty()) {
                     PushData pushData = new PushData(userId.split(","));
-                    pushData.setMessage(msg);
-                    pushData.setTitle(title);
+                    pushData.setPayload(msg);
+                    pushData.setMessage(title);
                     builder.withUserPushObject(pushData);
                 }
-                this.trackingId = trackingId;
                 Teliver.startTrip(builder.build());
-                String[] users = new String[]{"dasf"};
-                EventPush eventPush = new EventPush("trip_id", users);
-                eventPush.setMessage("We have reached near you");
-                Teliver.sendEventPush(eventPush);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,9 +152,9 @@ public class FragmentDriver extends Fragment implements TripListener {
     }
 
     @Override
-    public void onTripStarted(String tripDetails) {
+    public void onTripStarted(Trip tripDetails) {
         Log.d("Driver:", "Trip started::" + tripDetails);
-        changeStatus(trackingId, true);
+        changeStatus(tripDetails.getTrackingId(), true);
     }
 
     @Override
@@ -168,14 +167,12 @@ public class FragmentDriver extends Fragment implements TripListener {
     private void changeStatus(String id, boolean status) {
         mPreference.storeBoolean(Constants.IS_TRIP_ACTIVE, status);
         mPreference.storeString(Constants.TRACKING_ID, id);
-        closeProgress();
-        changeTripStatus();
+        listTrip();
     }
 
     @Override
     public void onTripError(String reason) {
         Log.d("Driver:", "Trip error: Reason: " + reason);
-        closeProgress();
     }
 
     @Override
@@ -189,25 +186,34 @@ public class FragmentDriver extends Fragment implements TripListener {
             CustomToast.showToast(context, getString(R.string.text_location_permission));
     }
 
-    private void showProgress() {
-        progressView = new ProgressView(context);
-        progressView.showProgress();
-    }
 
-    private void closeProgress() {
-        if (progressView != null)
-            progressView.dismiss();
-    }
-
-    private void changeTripStatus() {
-        if(isAdded()) {
-            if (mPreference.getBoolean(Constants.IS_TRIP_ACTIVE)) {
-                txtTripStatus.setText(getString(R.string.txt_stop_trip));
-                txtTripStatus.setTextColor(ContextCompat.getColor(context, R.color.color_red));
-            } else {
-                txtTripStatus.setText(getString(R.string.txt_start_trip));
-                txtTripStatus.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            }
+    private void listTrip() {
+        currentTrips = Teliver.getCurrentTrips();
+        if (currentTrips != null) {
+            mAdapter = new TripsAdapter(currentTrips, this);
+            recyclerView.setAdapter(mAdapter);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.stop:
+                try {
+                    Teliver.stopTrip(v.getTag().toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }

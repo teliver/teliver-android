@@ -4,7 +4,6 @@
     <string name="font_bold">fonts/font_bd.ttf</string>
     <string name="font_regular">fonts/font_rg.ttf</string>
 
-
     <string name="app_name">Teliver Demo</string>
     <string name="txt_start_trip">START TRIP</string>
     <string name="txt_stop_trip">STOP TRIP</string>
@@ -28,4 +27,6 @@
     <string name="text_no_internet">Please Check your Internet Connectivity</string>
     <string name="text_enter_valid_id">Tracking ID should not be empty</string>
     <string name="text_location_permission">Please enable Location Permission</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_cancel">Cancel</string>
 </resources>

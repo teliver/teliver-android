@@ -1,5 +1,8 @@
 package app.qk.teliver.utils;
 
+/**
+ * Created by quadkast on 10/4/17.
+ */
 
 public interface Constants {
 

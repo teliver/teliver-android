@@ -15,7 +15,6 @@ import com.teliver.sdk.models.MarkerOption;
 import com.teliver.sdk.models.NotificationData;
 import com.teliver.sdk.models.TConstants;
 import com.teliver.sdk.models.TrackingBuilder;
-import com.teliver.sdk.util.TeliverMap;
 
 import java.util.Map;
 
@@ -23,6 +22,8 @@ import app.qk.teliver.R;
 
 
 public class MyFirebaseMessageService extends FirebaseMessagingService {
+
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -32,8 +33,9 @@ public class MyFirebaseMessageService extends FirebaseMessagingService {
                 Map<String, String> pushData = remoteMessage.getData();
                 NotificationData data = new GsonBuilder().create().fromJson(pushData.get("description"), NotificationData.class);
                 if (data.getCommand().equals(TConstants.CMD_TRIP_START)) {
+
                     TrackingBuilder builder = new TrackingBuilder(new MarkerOption(data.getTrackingID()));
-                    Intent notificationIntent = new Intent(this, TeliverMap.class);
+                    Intent notificationIntent = new Intent(this, Teliver.getMap());
                     notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     notificationIntent.putExtra(TConstants.DOTS_OBJ, builder.build());
                     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
@@ -53,7 +55,7 @@ public class MyFirebaseMessageService extends FirebaseMessagingService {
                     notification.flags = Notification.FLAG_AUTO_CANCEL;
                     notificationManager.notify(12, notification);
                 } else if (data.getCommand().equals(TConstants.CMD_EVENT_PUSH)) {
-
+                    //The Event Push Area
                 }
             } else {
                 //The push is not for us, You can handle it.

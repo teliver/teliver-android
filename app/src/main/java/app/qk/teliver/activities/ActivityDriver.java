@@ -33,6 +33,7 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
 
     private FragmentDriver fragmentDriver;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +51,17 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
         rootView = findViewById(R.id.view_root);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-        changeFragment();
+        changeFragment(0);
         Teliver.identifyUser(new UserBuilder("test_driver")
                 .setUserType(UserBuilder.USER_TYPE.OPERATOR).build());
     }
 
-    private void changeFragment() {
+    private void changeFragment(int caseValue) {
+        if (caseValue == 0) {
             if (fragmentDriver == null)
                 fragmentDriver = new FragmentDriver();
             switchView(fragmentDriver, getString(R.string.app_name));
+        }
     }
 
     private void switchView(final Fragment fragment, final String title) {

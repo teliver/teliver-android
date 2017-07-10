@@ -13,15 +13,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.teliver.sdk.core.Teliver;
+import com.teliver.sdk.core.TrackingListener;
+import com.teliver.sdk.models.MarkerOption;
+import com.teliver.sdk.models.TLocation;
+import com.teliver.sdk.models.TrackingBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import app.qk.teliver.R;
 import app.qk.teliver.utils.Utils;
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.MarkerOption;
-import com.teliver.sdk.models.TrackingBuilder;
 
 
 public class FragmentCustomer extends Fragment {
@@ -90,10 +93,30 @@ public class FragmentCustomer extends Fragment {
                 for (String id : ids) {
                     MarkerOption option = new MarkerOption(id);
                     option.setMarkerTitle(id);
-                   // option.setIconMarker(icons[random.nextInt(icons.length)]);
+                    option.setIconMarker(icons[random.nextInt(icons.length)]);
                     markerOptionList.add(option);
                 }
-                Teliver.startTracking(new TrackingBuilder(markerOptionList).build());
+                Teliver.startTracking(new TrackingBuilder(markerOptionList).withListener(new TrackingListener() {
+                    @Override
+                    public void onTrackingStarted(String trackingId) {
+                        //This method is called when the operator initiates the trip by startTracking method.
+                    }
+
+                    @Override
+                    public void onLocationUpdate(String trackingId, TLocation location) {
+                        //This method is called when there is a updates in the location.
+                    }
+
+                    @Override
+                    public void onTrackingEnded(String trackingId) {
+                        //This method is called when tracking has stopped by calling the method stopTracking.
+                    }
+
+                    @Override
+                    public void onTrackingError(String reason) {
+                        //This method is called when there is error on tracking.
+                    }
+                }).build());
 
             }
         } catch (Exception e) {

@@ -47,17 +47,19 @@ public class ActivityCustomer extends AppCompatActivity implements FragmentManag
         rootView = findViewById(R.id.view_root);
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-        changeFragment();
+        changeFragment(0);
         Teliver.identifyUser(new UserBuilder("test_customer")
                 .setUserType(UserBuilder.USER_TYPE.CONSUMER)
                 .registerPush()
                 .build());
     }
 
-    private void changeFragment() {
+    private void changeFragment(int caseValue) {
+        if (caseValue == 0) {
             if (fragmentCustomer == null)
                 fragmentCustomer = new FragmentCustomer();
             switchView(fragmentCustomer, getString(R.string.app_name));
+        }
     }
 
     private void switchView(final Fragment fragment, final String title) {

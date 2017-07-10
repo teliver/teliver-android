@@ -27,9 +27,6 @@ import com.teliver.sdk.models.TConstants;
 import app.qk.teliver.R;
 
 
-/**
- * The Class Utils.
- */
 public class Utils {
 
 
@@ -39,7 +36,7 @@ public class Utils {
      * @param context   the context
      * @param toolbar   the toolbar
      * @param actionBar the action bar
-     * @param title     the title
+     * @param title     the tripId
      */
     public static void setUpToolBar(final Activity context, Toolbar toolbar,
                                     ActionBar actionBar, String title) {
