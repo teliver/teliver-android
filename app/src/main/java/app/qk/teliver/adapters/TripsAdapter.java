@@ -1,11 +1,13 @@
 package app.qk.teliver.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.teliver.sdk.core.TLog;
 import com.teliver.sdk.models.Trip;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.MyViewHolder
 
     private View.OnClickListener listener;
 
+    private LayoutInflater inflater;
+
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView trackingId, tripId, stop;
@@ -31,26 +36,30 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.MyViewHolder
         }
     }
 
-    public TripsAdapter(List<Trip> tripList, View.OnClickListener listener) {
-        this.tripList = tripList;
+    public TripsAdapter(Context context) {
+        inflater=LayoutInflater.from(context);
+    }
+
+    public void setData(List<Trip> trips,View.OnClickListener listener){
+        this.tripList = trips;
         this.listener = listener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.trip_list_row, parent, false);
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(inflater.inflate(R.layout.trip_list_row, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        TLog.log("ON Binding::"+position);
         Trip trip = tripList.get(position);
-        holder.trackingId.setText("Tracking ID : "+trip.getTrackingId());
+        holder.trackingId.setText(trip.getTrackingId());
         holder.stop.setTag(trip.getTrackingId());
         holder.stop.setOnClickListener(listener);
-        holder.tripId.setText("Trip ID : "+trip.getTripId());
+        holder.tripId.setText(trip.getTripId());
     }
+
 
     @Override
     public int getItemCount() {

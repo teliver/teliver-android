@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.teliver.sdk.models.PushData;
 import com.teliver.sdk.models.Trip;
 import com.teliver.sdk.models.TripBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.qk.teliver.R;
@@ -56,11 +58,9 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
 
     private MPreference mPreference;
 
-    private RecyclerView recyclerView;
-
     private TripsAdapter mAdapter;
 
-    List<Trip> currentTrips;
+    private List<Trip> currentTrips;
 
     @Nullable
     @Override
@@ -72,12 +72,22 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         context = getActivity();
+        Teliver.setTripListener(this);
         mPreference = new MPreference(context);
         viewRoot = view.findViewById(R.id.view_root);
         manager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         txtTripStatus = (TextView) view.findViewById(R.id.trip_status);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        listTrip();
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        currentTrips = new ArrayList<>();
+        currentTrips.addAll(Teliver.getCurrentTrips());
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mAdapter = new TripsAdapter(context);
+        mAdapter.setData(currentTrips, this);
+        recyclerView.setAdapter(mAdapter);
+
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS &&
@@ -136,7 +146,7 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
             else {
                 dialogBuilder.dismiss();
                 TripBuilder builder = new TripBuilder(trackingId);
-                Teliver.setListener(this);
+
 
                 if (!userId.isEmpty()) {
                     PushData pushData = new PushData(userId.split(","));
@@ -145,6 +155,7 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
                     builder.withUserPushObject(pushData);
                 }
                 Teliver.startTrip(builder.build());
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,6 +169,11 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
     }
 
     @Override
+    public void onLocationUpdate(Location location) {
+
+    }
+
+    @Override
     public void onTripEnded(String trackingId) {
         Log.d("Driver:", "Trip Ended::" + trackingId);
         changeStatus(null, false);
@@ -167,7 +183,9 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
     private void changeStatus(String id, boolean status) {
         mPreference.storeBoolean(Constants.IS_TRIP_ACTIVE, status);
         mPreference.storeString(Constants.TRACKING_ID, id);
-        listTrip();
+        currentTrips.clear();
+        currentTrips.addAll(Teliver.getCurrentTrips());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -187,24 +205,13 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
     }
 
 
-    private void listTrip() {
-        currentTrips = Teliver.getCurrentTrips();
-        if (currentTrips != null) {
-            mAdapter = new TripsAdapter(currentTrips, this);
-            recyclerView.setAdapter(mAdapter);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.stop:
                 try {
-                    Teliver.stopTrip(v.getTag().toString());
 
+                    Teliver.stopTrip(v.getTag().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
