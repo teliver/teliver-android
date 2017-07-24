@@ -30,14 +30,6 @@ import app.qk.teliver.R;
 public class Utils {
 
 
-    /**
-     * Sets the up tool bar.
-     *
-     * @param context   the context
-     * @param toolbar   the toolbar
-     * @param actionBar the action bar
-     * @param title     the tripId
-     */
     public static void setUpToolBar(final Activity context, Toolbar toolbar,
                                     ActionBar actionBar, String title) {
         try {
@@ -58,12 +50,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Checks if is net connected.
-     *
-     * @param context the context
-     * @return true, if is net connected
-     */
     public static boolean isNetConnected(Context context) {
         ConnectivityManager conMgr = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -73,13 +59,6 @@ public class Utils {
     }
 
 
-    /**
-     * Inits the.
-     *
-     * @param txtView the txt view
-     * @param context the context
-     * @param attrs   the attrs
-     */
     public void init(TextView txtView, Context context, AttributeSet attrs) {
         try {
             Typeface typeface = getCustomFont(context, attrs);
@@ -90,14 +69,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Gets the custom font.
-     *
-     * @param context the context
-     * @param attrs   the attrs
-     * @return the custom font
-     * i
-     */
     private Typeface getCustomFont(Context context, AttributeSet attrs) {
         Typeface typeface = null;
         try {
@@ -118,10 +89,6 @@ public class Utils {
     }
 
 
-    /**
-     * Show location alert.
-     * @param context the context
-     */
     public static void showLocationAlert(final Context context) {
         try {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(context, R.style.MyAlertDialogStyle);
@@ -155,7 +122,7 @@ public class Utils {
         Snackbar.make(view, msg, 2000).show();
     }
 
-    public static  boolean checkPermission(Activity activity) {
+    public static boolean checkPermission(Activity activity) {
         String permission = Manifest.permission.ACCESS_FINE_LOCATION;
         if (ContextCompat.checkSelfPermission(activity, permission)
                 == PackageManager.PERMISSION_GRANTED)

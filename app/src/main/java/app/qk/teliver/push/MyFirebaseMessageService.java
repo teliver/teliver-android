@@ -24,7 +24,6 @@ import app.qk.teliver.R;
 public class MyFirebaseMessageService extends FirebaseMessagingService {
 
 
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

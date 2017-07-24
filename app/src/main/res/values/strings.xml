@@ -29,4 +29,7 @@
     <string name="text_location_permission">Please enable Location Permission</string>
     <string name="txt_ok">OK</string>
     <string name="txt_cancel">Cancel</string>
+    <string name="txt_wait_start_trip">Please wait while the trip Starts.</string>
+    <string name="txt_wait_stop_trip">Please wait while the trip is being Stopped.</string>
+
 </resources>

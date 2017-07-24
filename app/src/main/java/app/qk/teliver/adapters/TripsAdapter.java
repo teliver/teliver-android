@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.teliver.sdk.core.TLog;
 import com.teliver.sdk.models.Trip;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.MyViewHolder
 
     private LayoutInflater inflater;
 
-
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView trackingId, tripId, stop;
@@ -37,10 +35,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.MyViewHolder
     }
 
     public TripsAdapter(Context context) {
-        inflater=LayoutInflater.from(context);
+        inflater = LayoutInflater.from(context);
     }
 
-    public void setData(List<Trip> trips,View.OnClickListener listener){
+    public void setData(List<Trip> trips, View.OnClickListener listener) {
         this.tripList = trips;
         this.listener = listener;
     }
@@ -52,7 +50,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TLog.log("ON Binding::"+position);
         Trip trip = tripList.get(position);
         holder.trackingId.setText(trip.getTrackingId());
         holder.stop.setTag(trip.getTrackingId());

@@ -1,10 +1,3 @@
-/**
- * @category Ask An Expert
- * @package com.askanexpert.utils
- * @version 1.0
- * @copyright Copyright (C) 2015 . All rights reserved.
- * @license http://www.apache.org/licenses/LICENSE-2.0
- */
 package app.qk.teliver.utils;
 
 import android.annotation.SuppressLint;
@@ -12,9 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-/**
- * The Class TPreference.
- */
 @SuppressLint("CommitPrefEdits")
 public class MPreference {
 

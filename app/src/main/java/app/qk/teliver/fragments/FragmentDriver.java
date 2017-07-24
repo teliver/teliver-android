@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -48,8 +47,6 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
 
     private Activity context;
 
-    private TextView txtTripStatus;
-
     private LocationManager manager;
 
     private View viewRoot;
@@ -76,13 +73,11 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
         mPreference = new MPreference(context);
         viewRoot = view.findViewById(R.id.view_root);
         manager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-        txtTripStatus = (TextView) view.findViewById(R.id.trip_status);
-
+        TextView txtTripStatus = (TextView) view.findViewById(R.id.trip_status);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         currentTrips = new ArrayList<>();
         currentTrips.addAll(Teliver.getCurrentTrips());
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new TripsAdapter(context);
         mAdapter.setData(currentTrips, this);
@@ -146,8 +141,6 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
             else {
                 dialogBuilder.dismiss();
                 TripBuilder builder = new TripBuilder(trackingId);
-
-
                 if (!userId.isEmpty()) {
                     PushData pushData = new PushData(userId.split(","));
                     pushData.setPayload(msg);
@@ -155,7 +148,7 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
                     builder.withUserPushObject(pushData);
                 }
                 Teliver.startTrip(builder.build());
-
+                Utils.showSnack(viewRoot, getString(R.string.txt_wait_start_trip));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,6 +205,8 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
                 try {
 
                     Teliver.stopTrip(v.getTag().toString());
+                    Utils.showSnack(viewRoot,getString(R.string.txt_wait_stop_trip));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

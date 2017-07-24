@@ -5,9 +5,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 
-/**
- * The Class CustomToast.
- */
 @SuppressLint("InflateParams")
 public class CustomToast {
 

@@ -13,21 +13,10 @@ import android.widget.ProgressBar;
 
 import app.qk.teliver.R;
 
-/**
- * The Class ProgressView.
- */
 public class ProgressView extends Dialog {
 
-    /**
-     * The context.
-     */
     private Context context;
 
-    /**
-     * Instantiates a new do progress dialog.
-     *
-     * @param context the context
-     */
     public ProgressView(Context context) {
         super(context);
         this.context = context;

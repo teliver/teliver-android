@@ -1,9 +1,5 @@
 package app.qk.teliver.utils;
 
-/**
- * Created by quadkast on 10/4/17.
- */
-
 public interface Constants {
 
     String LOGGED_IN_CUSTOMER = "logged_in_customer";
