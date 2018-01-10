@@ -10,7 +10,7 @@ public class MApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Teliver.init(this, "TELIVER_KEY");
+        Teliver.init(this,"TELIVER_KEY");
         TLog.setVisible(true);
     }
 }

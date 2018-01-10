@@ -34,6 +34,7 @@ public class ActivityCustomer extends AppCompatActivity implements FragmentManag
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
     }
 
     @Override
