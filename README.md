@@ -13,7 +13,7 @@ Accuracy: the base quality being accuracy, Teliver strives in delivering the bes
 To begin with – The configuration steps
 
 1. Open your build.gradle file of Module:app.  
-   Add `compile 'com.teliver.sdk:TeliverSdk:1.0.18'`as dependency.
+   Add `compile 'com.teliver.sdk:TeliverSdk:2.0.36'`as dependency.
 
 2. Obtain the map key from Google maps [page](https://developers.google.com/maps/documentation/android-api/).
 
