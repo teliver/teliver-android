@@ -82,7 +82,7 @@ Teliver.stopTracking("Tracking_Id");
 > Call this method to stop tracking of Operator from Consumer side.
 
 ---
-
+> Note: Complete documentation can be found at https://docs.teliver.io/
 
 
 
