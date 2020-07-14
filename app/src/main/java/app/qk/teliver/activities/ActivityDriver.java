@@ -1,23 +1,26 @@
 package app.qk.teliver.activities;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.teliver.sdk.core.Teliver;
 import com.teliver.sdk.models.UserBuilder;
 
 import app.qk.teliver.R;
 import app.qk.teliver.fragments.FragmentDriver;
-import app.qk.teliver.utils.Constants;
 import app.qk.teliver.utils.Utils;
 import app.qk.teliver.views.CustomToast;
 
@@ -109,12 +112,7 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        if (requestCode != Constants.PERMISSION_REQ_CODE)
-            return;
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (fragmentDriver != null)
-                fragmentDriver.validateTrip();
-        } else
-            CustomToast.showToast(this, getString(R.string.text_location_permission));
+        if (requestCode == 115)
+            fragmentDriver.onReqPermission(grantResults);
     }
 }

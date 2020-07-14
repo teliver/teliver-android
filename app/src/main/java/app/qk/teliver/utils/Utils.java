@@ -2,23 +2,40 @@
 package app.qk.teliver.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.net.ConnectivityManager;
+import android.os.Build;
+import android.os.Looper;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +46,11 @@ import app.qk.teliver.R;
 
 public class Utils {
 
+    @SuppressLint("InlinedApi")
+    private static final String FINE_LOC = Manifest.permission.ACCESS_FINE_LOCATION,
+            BG_LOC = Manifest.permission.ACCESS_BACKGROUND_LOCATION;
+
+    private static final int PERMISSION_REQ_CODE = 115, GPS_REQ = 124;
 
     public static void setUpToolBar(final Activity context, Toolbar toolbar,
                                     ActionBar actionBar, String title) {
@@ -122,18 +144,114 @@ public class Utils {
         Snackbar.make(view, msg, 2000).show();
     }
 
-    public static boolean checkPermission(Activity activity) {
-        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
-        if (ContextCompat.checkSelfPermission(activity, permission)
-                == PackageManager.PERMISSION_GRANTED)
-            return true;
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                permission))
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{permission}, TConstants.PERMISSION_REQ_CODE);
-        else
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{permission}, TConstants.PERMISSION_REQ_CODE);
+    public static boolean isAndQ() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+    }
+
+    public static boolean checkLPermission(Activity context) {
+        try {
+            if (isPermissionGranted(context))
+                return true;
+            String[] permissions = isAndQ() ? new String[]{FINE_LOC, BG_LOC}
+                    : new String[]{FINE_LOC};
+            if (isShouldShow(context, FINE_LOC))
+                showPermission(context, permissions);
+            else
+                showPermission(context, permissions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
+
+    public static boolean isPermissionOk(int... results) {
+        boolean isAllGranted = true;
+        for (int result : results) {
+            if (PackageManager.PERMISSION_GRANTED != result) {
+                isAllGranted = false;
+                break;
+            }
+        }
+        return isAllGranted;
+    }
+
+    private static void showPermission(Activity context, String... permissions) {
+        ActivityCompat.requestPermissions(context, permissions, PERMISSION_REQ_CODE);
+    }
+
+
+    private static boolean isShouldShow(Activity context, String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(context, permission);
+    }
+
+    public static boolean isPermissionGranted(Context context) {
+        if (isPermissionOk(context, FINE_LOC))
+            return !isAndQ() || isPermissionOk(context, BG_LOC);
+        else
+            return false;
+    }
+
+    private static boolean isPermissionOk(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void enableGPS(final Activity context, final
+    OnSuccessListener<Location> listener) {
+        try {
+            final FusedLocationProviderClient client = LocationServices
+                    .getFusedLocationProviderClient(context);
+            final LocationRequest locationRequest = getLocationReq();
+            LocationSettingsRequest request = new LocationSettingsRequest
+                    .Builder().addLocationRequest(locationRequest)
+                    .setAlwaysShow(true).build();
+            Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(
+                    context).checkLocationSettings(request);
+            task.addOnSuccessListener(locationSettingsResponse ->
+                    getMyLocation(client, locationRequest, listener));
+            task.addOnFailureListener(e -> {
+                if (e instanceof ResolvableApiException) {
+                    try {
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(context, GPS_REQ);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        listener.onSuccess(null);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private static void getMyLocation(final FusedLocationProviderClient client
+            , LocationRequest locationRequest, final OnSuccessListener<Location> listener) {
+        try {
+            client.requestLocationUpdates(locationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    if (locationResult == null)
+                        Log.d("OnDemandDelivery::","result null");
+                    else {
+                        Location location = locationResult.getLastLocation();
+                        client.removeLocationUpdates(this);
+                        listener.onSuccess(location);
+                    }
+                }
+            }, Looper.myLooper());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static LocationRequest getLocationReq() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(2000);
+        return locationRequest;
+    }
+
 }

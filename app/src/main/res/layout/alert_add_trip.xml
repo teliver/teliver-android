@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/VView"
+    android:elevation="60dp"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        style="@style/VView"
+        android:background="@color/color_white"
+        android:padding="16dp">
+
+
+        <EditText
+            android:id="@+id/edt_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/txt_enter_tracking_id"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textColor="@color/color_black"
+            android:textSize="15sp" />
+
+        <View
+            style="@style/LineView"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
+
+        <LinearLayout
+            style="@style/WLView"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:id="@+id/view_notify_users"
+            android:layout_gravity="end">
+
+            <TextView
+                style="@style/WLView"
+                android:text="@string/txt_notify_users"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/image_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_arrow_down"
+                android:tint="@color/color_red" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/expandable_view"
+            style="@style/VView"
+            android:layout_marginTop="5dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/edt_title"
+                style="@style/VView"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/txt_title"
+                android:padding="8dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <View
+                style="@style/LineView"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+            <EditText
+                android:id="@+id/edt_msg"
+                style="@style/VView"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/txt_message"
+                android:padding="8dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <View
+                style="@style/LineView"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+            <EditText
+                android:id="@+id/edt_user_id"
+                style="@style/VView"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/txt_enter_user_id"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <View
+                style="@style/LineView"
+                android:layout_height="1dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/WLView"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:padding="10sp"
+            android:text="@string/txt_tracking_msg"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            app:font_name="@string/font_regular"
+            tools:ignore="MissingPrefix" />
+
+
+        <TextView
+            android:id="@+id/btn_ok"
+            style="@style/WLView"
+            android:layout_width="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_btn"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Add Trip"
+            android:textAllCaps="true"
+            android:textColor="@color/color_white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

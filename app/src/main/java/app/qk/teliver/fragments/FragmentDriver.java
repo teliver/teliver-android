@@ -2,28 +2,31 @@ package app.qk.teliver.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.teliver.sdk.core.Teliver;
 import com.teliver.sdk.core.TripListener;
 import com.teliver.sdk.models.PushData;
@@ -43,15 +46,17 @@ import app.qk.teliver.views.CustomToast;
 import static android.content.Context.LOCATION_SERVICE;
 
 
-public class FragmentDriver extends Fragment implements TripListener, View.OnClickListener {
+public class FragmentDriver extends Fragment implements TripListener, View.OnClickListener, OnSuccessListener<Location> {
 
     private Activity context;
 
     private LocationManager manager;
 
-    private View viewRoot;
+    private View viewRoot, viewEmpty;
 
     private Dialog dialogBuilder;
+
+    private static final int REQUEST_CODE_PERMISSIONS = 101;
 
     private MPreference mPreference;
 
@@ -73,8 +78,9 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
         mPreference = new MPreference(context);
         viewRoot = view.findViewById(R.id.view_root);
         manager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-        TextView txtTripStatus = (TextView) view.findViewById(R.id.trip_status);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        ExtendedFloatingActionButton txtTripStatus = view.findViewById(R.id.add_trip);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        viewEmpty = view.findViewById(R.id.view_empty);
         currentTrips = new ArrayList<>();
         currentTrips.addAll(Teliver.getCurrentTrips());
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -82,6 +88,9 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
         mAdapter = new TripsAdapter(context);
         mAdapter.setData(currentTrips, this);
         recyclerView.setAdapter(mAdapter);
+
+        if (currentTrips.isEmpty())
+            viewEmpty.setVisibility(View.VISIBLE);
 
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
@@ -92,41 +101,41 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
             dialog.setCancelable(false);
             dialog.show();
         }
-        txtTripStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Utils.checkPermission(context))
-                    validateTrip();
-            }
+
+        txtTripStatus.setOnClickListener(view1 -> {
+            if (Utils.checkLPermission(context))
+                Utils.enableGPS(context, this);
         });
     }
 
     public void validateTrip() {
         try {
-            String provider = manager.getBestProvider(new Criteria(), true);
-            if ((!TextUtils.isEmpty(provider)) &&
-                    LocationManager.PASSIVE_PROVIDER.equals(provider))
-                Utils.showLocationAlert(context);
-            else {
                 dialogBuilder = new Dialog(context);
                 dialogBuilder.getWindow().setBackgroundDrawable(new ColorDrawable(
                         ContextCompat.getColor(context, android.R.color.transparent)));
-                dialogBuilder.setContentView(R.layout.view_tracking);
-                final EditText edtId = (EditText) dialogBuilder.findViewById(R.id.edt_id);
-                final EditText edtTitle = (EditText) dialogBuilder.findViewById(R.id.edt_title);
-                final EditText edtMsg = (EditText) dialogBuilder.findViewById(R.id.edt_msg);
-                final EditText edtUserId = (EditText) dialogBuilder.findViewById(R.id.edt_user_id);
-                final TextView btnOk = (TextView) dialogBuilder.findViewById(R.id.btn_ok);
-                btnOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startTrip(edtTitle.getText().toString(), edtMsg.getText().toString(),
-                                edtUserId.getText().toString().trim(), edtId.getText().toString().trim());
+                dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialogBuilder.setContentView(R.layout.alert_add_trip);
+                final EditText edtId = dialogBuilder.findViewById(R.id.edt_id);
+                final EditText edtTitle = dialogBuilder.findViewById(R.id.edt_title);
+                final EditText edtMsg = dialogBuilder.findViewById(R.id.edt_msg);
+                final EditText edtUserId = dialogBuilder.findViewById(R.id.edt_user_id);
+                final TextView btnOk = dialogBuilder.findViewById(R.id.btn_ok);
+                final ImageView imageArrow = dialogBuilder.findViewById(R.id.image_arrow);
+                final View expandView = dialogBuilder.findViewById(R.id.expandable_view);
+                final View viewNotifyUser = dialogBuilder.findViewById(R.id.view_notify_users);
+
+                viewNotifyUser.setOnClickListener(v -> {
+                    if (expandView.getVisibility() == View.GONE) {
+                        expandView.setVisibility(View.VISIBLE);
+                        imageArrow.setRotation(180);
+                    } else {
+                        expandView.setVisibility(View.GONE);
+                        imageArrow.setRotation(360);
                     }
                 });
+                btnOk.setOnClickListener(view -> startTrip(edtTitle.getText().toString(), edtMsg.getText().toString(),
+                        edtUserId.getText().toString().trim(), edtId.getText().toString().trim()));
                 dialogBuilder.show();
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,6 +188,7 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
         currentTrips.clear();
         currentTrips.addAll(Teliver.getCurrentTrips());
         mAdapter.notifyDataSetChanged();
+        viewEmpty.setVisibility(currentTrips.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -187,35 +197,31 @@ public class FragmentDriver extends Fragment implements TripListener, View.OnCli
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        if (requestCode != Constants.PERMISSION_REQ_CODE)
-            return;
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            validateTrip();
-        else
-            CustomToast.showToast(context, getString(R.string.text_location_permission));
-    }
-
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.stop:
                 try {
-
                     Teliver.stopTrip(v.getTag().toString());
-                    Utils.showSnack(viewRoot,getString(R.string.txt_wait_stop_trip));
-
+                    Utils.showSnack(viewRoot, getString(R.string.txt_wait_stop_trip));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
             default:
                 break;
         }
     }
 
+    public void onReqPermission(int[] grantResults) {
+        if (Utils.isPermissionOk(grantResults))
+            Utils.enableGPS(context,this);
+        else
+            CustomToast.showToast(context, getString(R.string.text_location_permission));
+    }
 
+    @Override
+    public void onSuccess(Location location) {
+        if (location != null)
+            validateTrip();
+    }
 }

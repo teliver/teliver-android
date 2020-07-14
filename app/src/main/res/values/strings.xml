@@ -4,6 +4,10 @@
     <string name="font_bold">fonts/font_bd.ttf</string>
     <string name="font_regular">fonts/font_rg.ttf</string>
 
+    <string name="txt_data">The middle of the console displays buttons that launch setup workflows to add various types of apps. After you start using Firebase, the main area of the console changes into a dashboard that displays stats on the products you use
+    Ensure that all apps within a project are platform variants of the same application from an end-user perspective. It\'s advisable to add the Android, iOS, and web versions of the same app or game to the same Firebase project. All the apps in a project generally share the same Firebase resources (database, storage buckets, etc.).
+    Connecting several differWhile there is no restriction on the number of apps within a project, adding an app can create one or more underlying OAuth 2.0 client IDs. There is a limit of around 30 client IDs that can be created within a single project.ent logically independent apps and/or web sites to a single project (often called "multi-tenancy") is not recommended. Multi-tenancy can lead to serious configuration and data privacy concerns problems, including unintended issues with analytics aggregation, shared authentication, overly-complex database structures, and difficulties with security rules.
+    </string>
     <string name="app_name">Teliver Demo</string>
     <string name="txt_start_trip">START TRIP</string>
     <string name="txt_stop_trip">STOP TRIP</string>
@@ -31,5 +35,10 @@
     <string name="txt_cancel">Cancel</string>
     <string name="txt_wait_start_trip">Please wait while the trip Starts.</string>
     <string name="txt_wait_stop_trip">Please wait while the trip is being Stopped.</string>
+    <string name="txt_continue1">Continue</string>
+    <string name="txt_enter_tracking">Enter your Tracking ID to track the Teliverian in the Map</string>
+    <string name="txt_notify_users">Notify Users</string>
+    <string name="txt_enter_tracking_id">Enter Tracking ID*</string>
+    <string name="txt_empty_trip">Your Trips will be displayed here once Added</string>
 
 </resources>

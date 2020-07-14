@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_root"
+    style="@style/RootView"
+    android:background="#F9f9f9">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar2"
+        style="@style/VView"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="@color/color_white"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/imageViewCollapsing"
+                style="@style/FView"
+                android:layout_marginBottom="15dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_background"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/VView"
+        android:layout_marginTop="-15dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            style="@style/FView"
+            android:background="@drawable/shape_corner"
+            android:orientation="vertical">
+
+            <app.qk.teliver.views.CustomTextView
+                style="@style/WLView"
+                android:layout_marginTop="35dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/txt_enter_tracking"
+                android:textColor="@color/color_black"
+                android:textSize="18sp"
+                app:font_name="@string/font_regular" />
+
+            <LinearLayout
+                style="@style/WVView"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_rectangle"
+                android:padding="14dp">
+
+                <EditText
+                    android:id="@+id/edt_tracking_id"
+                    style="@style/VView"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter the Tracking ID*"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/trip_status"
+                style="@style/VView"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="80dp"
+                android:background="@drawable/shape_btn"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="TRACK"
+                android:textAllCaps="true"
+                android:textColor="@color/color_white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
