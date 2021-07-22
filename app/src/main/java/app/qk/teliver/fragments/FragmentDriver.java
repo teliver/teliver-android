@@ -27,11 +27,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.core.TripListener;
-import com.teliver.sdk.models.PushData;
-import com.teliver.sdk.models.Trip;
-import com.teliver.sdk.models.TripBuilder;
+import io.teliver.sdk.core.Teliver;
+import io.teliver.sdk.core.TripListener;
+import io.teliver.sdk.models.PushData;
+import io.teliver.sdk.models.Trip;
+import io.teliver.sdk.models.TripBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

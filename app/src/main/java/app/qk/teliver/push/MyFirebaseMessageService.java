@@ -10,11 +10,11 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.GsonBuilder;
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.MarkerOption;
-import com.teliver.sdk.models.NotificationData;
-import com.teliver.sdk.models.TConstants;
-import com.teliver.sdk.models.TrackingBuilder;
+import io.teliver.sdk.core.Teliver;
+import io.teliver.sdk.models.MarkerOption;
+import io.teliver.sdk.models.NotificationData;
+import io.teliver.sdk.models.TConstants;
+import io.teliver.sdk.models.TrackingBuilder;
 
 import java.util.Map;
 

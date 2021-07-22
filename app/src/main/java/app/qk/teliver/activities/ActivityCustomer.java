@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.UserBuilder;
+import io.teliver.sdk.core.Teliver;
+import io.teliver.sdk.models.UserBuilder;
 
 import app.qk.teliver.R;
 import app.qk.teliver.fragments.FragmentCustomer;
