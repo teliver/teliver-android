@@ -39,7 +39,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.teliver.sdk.models.TConstants;
+import io.teliver.sdk.models.TConstants;
 
 import app.qk.teliver.R;
 

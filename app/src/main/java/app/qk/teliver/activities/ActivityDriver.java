@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.UserBuilder;
+import io.teliver.sdk.core.Teliver;
+import io.teliver.sdk.models.UserBuilder;
 
 import app.qk.teliver.R;
 import app.qk.teliver.fragments.FragmentDriver;

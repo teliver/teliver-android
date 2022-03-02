@@ -11,9 +11,9 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.teliver.sdk.core.Teliver;
-import com.teliver.sdk.models.MarkerOption;
-import com.teliver.sdk.models.TrackingBuilder;
+import io.teliver.sdk.core.Teliver;
+import io.teliver.sdk.models.MarkerOption;
+import io.teliver.sdk.models.TrackingBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

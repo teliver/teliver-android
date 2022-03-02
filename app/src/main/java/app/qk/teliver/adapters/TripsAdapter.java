@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.teliver.sdk.models.Trip;
+import io.teliver.sdk.models.Trip;
 
 import java.util.List;
 
