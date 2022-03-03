@@ -11,7 +11,7 @@ public class MApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Teliver.init(this,"Teliver key");
+        Teliver.init(this, "key");
         TLog.setVisible(true);
     }
 }

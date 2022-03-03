@@ -112,6 +112,7 @@ public class ActivityDriver extends AppCompatActivity implements FragmentManager
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 115)
             fragmentDriver.onReqPermission(grantResults);
     }
