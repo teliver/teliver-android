@@ -23,10 +23,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    packagingOptions {
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/io.netty.versions.properties'
-    }
 }
 
 dependencies {
@@ -36,7 +32,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0-alpha01'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "com.google.android.gms:play-services-location:18.0.0"
-    implementation 'io.teliver.sdk:TeliverSdk:4.0.4'
+    implementation 'io.teliver.sdk:TeliverSdk:4.0.6'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0-beta02'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'

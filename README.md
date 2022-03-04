@@ -13,7 +13,7 @@ Accuracy: the base quality being accuracy, Teliver strives in delivering the bes
 To begin with – The configuration steps
 
 1. Open your build.gradle file of Module:app.  
-   Add `implementation 'io.teliver.sdk:TeliverSdk:4.0.4'`as dependency.
+   Add `implementation 'io.teliver.sdk:TeliverSdk:4.0.6'`as dependency.
 
 2. Obtain the map key from Google maps [page](https://developers.google.com/maps/documentation/android-api/).
 
@@ -82,21 +82,6 @@ Teliver.stopTracking("Tracking_Id");
 > Call this method to stop tracking of Operator from Consumer side.
 
 ---
-
-> If you face the following issue then add the following lines of code in your apps's build.gradle.
-
-
-Execution failed for task ':app:mergeDebugJavaResource'.
-A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
-More than one file was found with OS independent path 'META-INF/INDEX.LIST'.
-
-```groovy
-packagingOptions {
-     exclude 'META-INF/INDEX.LIST'
-     exclude 'META-INF/io.netty.versions.properties'
-}
-```
-
 
 > Note: Complete documentation can be found at https://docs.teliver.io/
 
