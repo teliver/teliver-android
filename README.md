@@ -13,7 +13,7 @@ Accuracy: the base quality being accuracy, Teliver strives in delivering the bes
 To begin with – The configuration steps
 
 1. Open your build.gradle file of Module:app.  
-   Add `implementation 'io.teliver.sdk:TeliverSdk:4.0.6'`as dependency.
+   Add `implementation 'io.teliver.sdk:TeliverSdk:4.0.7'`as dependency.
 
 2. Obtain the map key from Google maps [page](https://developers.google.com/maps/documentation/android-api/).
 
@@ -82,6 +82,12 @@ Teliver.stopTracking("Tracking_Id");
 > Call this method to stop tracking of Operator from Consumer side.
 
 ---
+
+> Add the following line in project's build.gradle - inside respositories of allprojects & buildscripts
+```
+
+maven { url 'https://jitpack.io' }
+```
 
 > Note: Complete documentation can be found at https://docs.teliver.io/
 
