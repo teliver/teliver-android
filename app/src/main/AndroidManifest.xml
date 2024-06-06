@@ -38,8 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ActivityDriver"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ActivityCustomer"
             android:screenOrientation="portrait" />
